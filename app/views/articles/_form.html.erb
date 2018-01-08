@@ -11,30 +11,27 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :title %>
+  <div class="form-inputs">
     <%= f.text_field :title %>
+    <%= f.text_field :description %>
   </div>
 
-  <div class="field">
-    <%= f.label :description %>
-    <%= f.text_area :description %>
-  </div>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Comment</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody class="fields">
+      <%= f.fields_for :comments do |builder| %>
+        <%= render 'comment', f: builder %>
+      <% end %>
+    </tbody>
+  </table>
 
-  <h2>Comment</h2>
-    <div class="field">
-      <%= f.fields_for :comments do |ff| %>
-        <%= ff.label :description %> 
-        <%= ff.text_field :description %> 
-
-        <% if ff.object.persisted? %>
-          <%= ff.check_box :_destroy %>
-          <%= ff.label :_destroy, "Destroy" %>
-        <% end %>
-    </div>
-  <% end %>
-
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+<div class="form-actions">
+  <%= f.submit %>
+  <%= link_to_add_row('Add Comment', f, :comments, class: 'btn btn-primary') %>
+</div>
 <% end %>

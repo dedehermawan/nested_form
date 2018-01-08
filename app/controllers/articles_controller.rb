@@ -15,12 +15,12 @@ class ArticlesController < ApplicationController
   # GET /articles/new
   def new
     @article = Article.new
-    @article.comments.build
+    # @article.comments.build
   end
 
   # GET /articles/1/edit
   def edit
-    @article.comments.build
+     # @article.comments.build
   end
 
   # POST /articles
@@ -30,7 +30,8 @@ class ArticlesController < ApplicationController
 
     respond_to do |format|
       if @article.save
-        format.html { redirect_to @article, notice: 'Article was successfully created.' }
+        # format.html { redirect_to @article, notice: 'Article was successfully created.' }
+        format.html { redirect_to edit_article_path(@article), notice: 'Article was successfully created.' }
         format.json { render :show, status: :created, location: @article }
       else
         format.html { render :new }
@@ -44,7 +45,7 @@ class ArticlesController < ApplicationController
   def update
     respond_to do |format|
       if @article.update(article_params)
-        format.html { redirect_to @article, notice: 'Article was successfully updated.' }
+        format.html { redirect_to edit_article_path(@article), notice: 'Article was successfully updated.' }
         format.json { render :show, status: :ok, location: @article }
       else
         format.html { render :edit }
@@ -71,6 +72,7 @@ class ArticlesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def article_params
-      params.require(:article).permit(:title, :description, comments_attributes: [:id, :description, :_destroy])
+      # params.require(:article).permit(:title, :description, comments_attributes: [:id, :article_id, :description, :_destroy])
+      params.require(:article).permit(:title, :description, comments_attributes: Comment.attribute_names.map(&:to_sym).push(:_destroy))
     end
 end
